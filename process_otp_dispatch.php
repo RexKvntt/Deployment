@@ -9,6 +9,7 @@ session_start();
 require 'vendor/autoload.php';
 require 'cryptograph_process.php';
 require_once 'db.php';
+include '.env.example'; // For envValue() helper
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as MailException;
@@ -107,7 +108,7 @@ if ($channel === 'email') {
         $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
         $mail->Username   = 'helios.univv@gmail.com';
-        $mail->Password   = $smtp['password'];
+        $mail->Password   = SMTP_PASSWORD;
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = 587;
         $mail->Timeout    = 20;
