@@ -1,7 +1,7 @@
 FROM php:8.2-apache
 
 RUN apt-get update \
-    && apt-get install -y --no-install-recommends libcurl4-openssl-dev \
+    && apt-get install -y --no-install-recommends git unzip libcurl4-openssl-dev \
     && docker-php-ext-install curl pdo pdo_mysql mysqli \
     && rm -rf /var/lib/apt/lists/*
 RUN a2enmod rewrite headers
@@ -12,7 +12,11 @@ COPY --from=composer:2 /usr/bin/composer /usr/bin/composer
 WORKDIR /var/www/html
 
 COPY composer.json composer.lock ./
-RUN composer install --no-dev --optimize-autoloader --no-interaction --no-progress
+RUN php -v \
+    && php -m \
+    && composer --version \
+    && composer validate --no-check-publish \
+    && COMPOSER_ALLOW_SUPERUSER=1 composer install --no-dev --prefer-dist --optimize-autoloader --no-interaction
 
 COPY . .
 RUN mkdir -p uploads/class_posts \
