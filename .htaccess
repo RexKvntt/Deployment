@@ -1,0 +1,10 @@
+Options -Indexes
+
+<FilesMatch "(^\.|composer\.(json|lock)$|render\.yaml$|Dockerfile$|README_RENDER\.md$|.*\.(sql|json|env|log|md|yaml|yml|lock)$)">
+    Require all denied
+</FilesMatch>
+
+<FilesMatch "^(fix_admin_email|test_db|test_dashboard)\.php$">
+    Require all denied
+</FilesMatch>
+

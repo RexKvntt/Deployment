@@ -1,0 +1,10 @@
+.git
+.env
+.env.*
+README_RENDER.md
+vendor/
+uploads/*
+!uploads/.gitkeep
+!uploads/class_posts/
+!uploads/class_posts/.gitkeep
+*.log

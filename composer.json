@@ -1,0 +1,17 @@
+{
+    "name": "helios/academic-hub",
+    "description": "Helios University Academic Hub PHP application.",
+    "license": "proprietary",
+    "require": {
+        "php": "^8.2",
+        "ext-curl": "*",
+        "ext-openssl": "*",
+        "ext-pdo": "*",
+        "ext-pdo_mysql": "*",
+        "phpmailer/phpmailer": "^7.0",
+        "twilio/sdk": "^8.11"
+    },
+    "scripts": {
+        "start": "php -S 0.0.0.0:${PORT:-10000} -t ."
+    }
+}
