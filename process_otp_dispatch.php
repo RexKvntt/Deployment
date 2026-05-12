@@ -110,6 +110,7 @@ if ($channel === 'email') {
         $mail->Password   = $smtp['password'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
         $mail->Port       = $smtp['port'];
+        $mail->Timeout    = 30;
 
         $mail->setFrom($smtp['from_email'], $smtp['from_name']);
         $decryptedEmail = decryptData($targetUser['email']);

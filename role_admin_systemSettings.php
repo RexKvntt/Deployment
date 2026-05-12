@@ -17,12 +17,27 @@ require_once 'db.php';
 $message = null;
 $msgType = 'success';
 
+// Define default values so the site doesn't crash if the DB is empty
+$defaults = [
+    'org_name'    => 'Helios University',
+    'sys_email'   => 'admin@helios.edu',
+    'allow_reg'   => '0',
+    'maintenance' => '0',
+    'm_duration'  => '60',
+    'm_work'      => '',
+    'enforce_otp' => '0',
+    'last_updated'=> ''
+];
+
 // Load config from DB
 $configStmt = $pdo->query("SELECT setting_key, setting_value FROM system_settings");
-$config = [];
+$dbConfig = [];
 foreach ($configStmt->fetchAll() as $row) {
-    $config[$row['setting_key']] = $row['setting_value'];
+    $dbConfig[$row['setting_key']] = $row['setting_value'];
 }
+
+// Merge them: DB values will overwrite defaults
+$config = array_merge($defaults, $dbConfig);
 
 /* ── Handle Save Process ── */
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['save_settings'])) {
