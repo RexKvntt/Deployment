@@ -93,13 +93,13 @@ if ($channel === 'email') {
         exit();
     }
 
-    $smtpReachable = @fsockopen($smtp['host'], $smtp['port'], $errno, $errstr, 5);
-    if (!$smtpReachable) {
-        rollbackOtp($pdo, $targetUser['id']);
-        header("Location: otp_channel_select.php?error=no_connection");
-        exit();
-    }
-    fclose($smtpReachable);
+    // $smtpReachable = @fsockopen($smtp['host'], $smtp['port'], $errno, $errstr, 5);
+    // if (!$smtpReachable) {
+       // rollbackOtp($pdo, $targetUser['id']);
+       // header("Location: otp_channel_select.php?error=no_connection");
+       // exit();
+    //}
+    // fclose($smtpReachable);
 
     $mail = new PHPMailer(true);
     try {
