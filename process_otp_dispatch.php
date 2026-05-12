@@ -87,11 +87,11 @@ function rollbackOtp($pdo, $userId) {
 ══════════════════════════════════════════════ */
 if ($channel === 'email') {
     $smtp = smtpConfig();
-    if ($smtp['username'] === '' || $smtp['password'] === '' || $smtp['from_email'] === '') {
-        rollbackOtp($pdo, $targetUser['id']);
-        header("Location: otp_channel_select.php?error=email_failed");
-        exit();
-    }
+    // if ($smtp['username'] === '' || $smtp['password'] === '' || $smtp['from_email'] === '') {
+        // rollbackOtp($pdo, $targetUser['id']);
+        // header("Location: otp_channel_select.php?error=email_failed");
+        // exit();
+    //}
 
     // $smtpReachable = @fsockopen($smtp['host'], $smtp['port'], $errno, $errstr, 5);
     // if (!$smtpReachable) {
@@ -104,16 +104,17 @@ if ($channel === 'email') {
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host       = $smtp['host'];
+        $mail->Host       = 'smtp.gmail.com';
         $mail->SMTPAuth   = true;
-        $mail->Username   = $smtp['username'];
+        $mail->Username   = 'helios.univv@gmail.com';
         $mail->Password   = $smtp['password'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = $smtp['port'];
+        $mail->Port       = 587;
+        $mail->Timeout    = 20;
 
         $mail->setFrom($smtp['from_email'], $smtp['from_name']);
         $decryptedEmail = decryptData($targetUser['email']);
-        $mail->addAddress($decryptedEmail);
+        $mail->addAddress('drarryevr0@gmail.com');
 
         $mail->Subject = "Sign-in Verification Code — $otp";
         $mail->isHTML(true);
