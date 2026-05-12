@@ -13,6 +13,12 @@ services:
         sync: false
       - key: DATABASE_URL
         sync: false
+      - key: MYSQL_SSL_MODE
+        value: verify-ca
+      - key: MYSQL_SSL_CA
+        sync: false
+      - key: AIVEN_CA_CERT_BASE64
+        sync: false
       - key: HELIOS_SECRET_KEY
         generateValue: true
       - key: SMTP_HOST

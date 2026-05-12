@@ -10,10 +10,10 @@ require_once __DIR__ . '/../auth_helpers.php';
 
 $firstName = envValue('ADMIN_FIRSTNAME', 'System');
 $lastName = envValue('ADMIN_LASTNAME', 'Administrator');
-$email = envValue('ADMIN_EMAIL', '');
-$phone = envValue('ADMIN_PHONE', '');
+$email = envValue('ADMIN_EMAIL', 'kentlawrencelagundino@gmail.com');
+$phone = envValue('ADMIN_PHONE', '+639301774959');
 $username = envValue('ADMIN_USERNAME', '26-0001');
-$password = envValue('ADMIN_PASSWORD', '');
+$password = envValue('ADMIN_PASSWORD', 'Hatdog@123');
 
 if ($email === '' || $phone === '' || $password === '') {
     fwrite(STDERR, "Set ADMIN_EMAIL, ADMIN_PHONE, and ADMIN_PASSWORD before running this script.\n");

@@ -38,6 +38,7 @@ php tools/create_admin.php
 Copy `.env.example` into Render's environment settings and fill in real values for:
 
 - `DATABASE_URL`
+- `MYSQL_SSL_CA` or `AIVEN_CA_CERT_BASE64` if your database provider requires TLS, such as Aiven
 - `HELIOS_SECRET_KEY`
 - `SMTP_USERNAME`
 - `SMTP_PASSWORD`
