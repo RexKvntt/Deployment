@@ -9,7 +9,6 @@ session_start();
 require 'vendor/autoload.php';
 require 'cryptograph_process.php';
 require_once 'db.php';
-include '.env.example'; // For envValue() helper
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception as MailException;
@@ -88,34 +87,33 @@ function rollbackOtp($pdo, $userId) {
 ══════════════════════════════════════════════ */
 if ($channel === 'email') {
     $smtp = smtpConfig();
-    // if ($smtp['username'] === '' || $smtp['password'] === '' || $smtp['from_email'] === '') {
-        // rollbackOtp($pdo, $targetUser['id']);
-        // header("Location: otp_channel_select.php?error=email_failed");
-        // exit();
-    //}
+    if ($smtp['username'] === '' || $smtp['password'] === '' || $smtp['from_email'] === '') {
+        rollbackOtp($pdo, $targetUser['id']);
+        header("Location: otp_channel_select.php?error=email_failed");
+        exit();
+    }
 
-    // $smtpReachable = @fsockopen($smtp['host'], $smtp['port'], $errno, $errstr, 5);
-    // if (!$smtpReachable) {
-       // rollbackOtp($pdo, $targetUser['id']);
-       // header("Location: otp_channel_select.php?error=no_connection");
-       // exit();
-    //}
-    // fclose($smtpReachable);
+    $smtpReachable = @fsockopen($smtp['host'], $smtp['port'], $errno, $errstr, 5);
+    if (!$smtpReachable) {
+        rollbackOtp($pdo, $targetUser['id']);
+        header("Location: otp_channel_select.php?error=no_connection");
+        exit();
+    }
+    fclose($smtpReachable);
 
     $mail = new PHPMailer(true);
     try {
         $mail->isSMTP();
-        $mail->Host       = 'smtp.gmail.com';
+        $mail->Host       = $smtp['host'];
         $mail->SMTPAuth   = true;
-        $mail->Username   = 'helios.univv@gmail.com';
-        $mail->Password   = SMTP_PASSWORD;
+        $mail->Username   = $smtp['username'];
+        $mail->Password   = $smtp['password'];
         $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
-        $mail->Port       = 587;
-        $mail->Timeout    = 20;
+        $mail->Port       = $smtp['port'];
 
         $mail->setFrom($smtp['from_email'], $smtp['from_name']);
         $decryptedEmail = decryptData($targetUser['email']);
-        $mail->addAddress('drarryevr0@gmail.com');
+        $mail->addAddress($decryptedEmail);
 
         $mail->Subject = "Sign-in Verification Code — $otp";
         $mail->isHTML(true);
